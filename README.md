@@ -1,57 +1,57 @@
 # Equipment Classification
 
-**Утилита** для определения состояния оборудования по данным с датчиков.
+**Utility** for determining the condition of equipment based on sensor data.
 
-## Установка
+## Installation
 
-1. Клонировать репозиторий:
+1. Clone the repository:
 
     ```bash
     git clone <URL>
     ```
 
-2. Создать и активировать виртуальное окружение:
+2. Create and activate a virtual environment:
 
     ```bash
     python3 -m venv .venv
     source .venv/bin/activate
     ```
 
-3. Установить зависимости:
+3. Install dependencies:
 
     ```bash
     pip install -r requirements.txt
     ```
 
-## Конфигурация
+## Configuration
 
-Перед работой необходимо запустить локальный сервер.  
-Он автоматически открывается при запуске утилиты через `__main__.py`.
+Before running the tool, you need to start the local server.  
+It will start automatically when running the utility via `__main__.py`.
 
-Вы можете воспользоваться встроенными примерами запросов.
+You can use the built-in example requests.
 
-1. Перейти в папку:
+1. Navigate to the folder:
 
     ```bash
     cd test
     ```
 
-2. Запустите и выберите файл для тестирования.
+2. Run and select a file for testing.
 
-## О модулях
+## Modules Overview
 
-**Папка `main_scripts`:**
-1. `main.py` — интерфейс командной строки.  
-2. `rules` — папка с правилами для работы утилиты.  
+**Folder `main_scripts`:**
+1. `main.py` — command-line interface.  
+2. `rules` — folder containing the rules for the utility.  
 
-**Папка `src`:**
-1. `classification_methods.py` — методы, связанные с классификацией данных.  
-2. `clusterization_methods.py` — методы, связанные с кластеризацией данных.  
-3. `connector.py` — класс для работы с БД.  
-4. `two_methods_include.py` — методы, связанные с оптимизацией и обработкой результатов классификации и кластеризации.
+**Folder `src`:**
+1. `classification_methods.py` — all methods related to data classification.  
+2. `clusterization_methods.py` — all methods related to data clustering.  
+3. `connector.py` — database connection class.  
+4. `two_methods_include.py` — methods related to optimization and processing of classification and clustering results.
 
 ---
 
-**Запуск с параметром:**
+**Run with parameter:**
 ```bash
 python -m project
