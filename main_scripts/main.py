@@ -10,13 +10,14 @@ from typing import Optional, List, Dict, Tuple
 import json
 import os
 import emoji
+from collections import OrderedDict
 import numpy as np
 import pandas as pd
 from tabulate import tabulate
 from scipy import stats
 
 # Импортирование алгоритмов машинного обучения из sklearn
-from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering, AffinityPropagation
+from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering, AffinityPropagation, SpectralClustering
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
@@ -289,7 +290,7 @@ def data_classification(
             # Классификация данным методом с выбранными гиперпараметрами
             y_pred, model_classification, y_test = classification_methods.data_gradboost_classif(None, None, X, y, best_params)
         else:
-            raise ValueError(f"Ошибка выбора алгоритма. Полученный алгоритм: {algorithm_name}")
+            raise ValueError(f"Ошибка выбора алгоритма.")
     # Результаты классификации macro weighted
     precision = precision_score(y_test, y_pred, average='macro')
     recall = recall_score(y_test, y_pred, average='macro')
