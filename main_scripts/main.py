@@ -445,7 +445,7 @@ def data_clasterization(
             # Кластеризация данным методом с выбранными гиперпараметрами
             labels, model_clusterization = clusterization_methods.data_affprop_cluster(data_for_clustering, best_params)
         else:
-            raise ValueError(f"Ошибка выбора алгоритма. Полученный алгоритм: {algorithm_name}")
+            raise ValueError(f"Ошибка выбора алгоритма.")
     best_score = round(best_score, 2)
     print("\tЛучшая метрика силуэта:", best_score)
 
@@ -551,7 +551,7 @@ async def data_predict_claster_classif_distribution(
     elif method_classif == "GradientBoosting":
         y_pred = classification_methods.data_gradboost_classif(model_classif, data_for_classification)
     else:
-        raise ValueError(f"Ошибка выбора алгоритма. Полученный алгоритм: {algorithm_name}")
+        raise ValueError(f"Ошибка выбора алгоритма. Полученный алгоритм: {method_classif}")
     # Добавление результатов к данным
     classif_data_with_labels_without_id = two_methods_included.concatenate_data_with_labels(data_for_clustering, y_pred, "behind")
     classif_data_with_labels_without_id = two_methods_included.concatenate_data_with_labels(classif_data_with_labels_without_id, time_col, "front")
