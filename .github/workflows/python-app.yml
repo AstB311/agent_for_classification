@@ -38,4 +38,3 @@ jobs:
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/src
         pytest
-        pytest
