@@ -1,56 +1,65 @@
-import requests
-from typing import Optional, Dict
+import pytest
+from unittest.mock import patch, Mock
+from src.analysis.BakeSystemAPI import BakeSystemAPI
 
 
-class BakeSystemAPI:
-    def __init__(self, base_url: str = "http://127.0.0.1:8000"):
-        self.base_url = base_url
+@patch("src.analysis.BakeSystemAPI.requests.request")
+def test_learn_and_predict(mock_request):
+    # Настраиваем мок-ответ
+    mock_response = Mock()
+    mock_response.json.return_value = {"status": "success"}
+    mock_response.raise_for_status.return_value = None
+    mock_request.return_value = mock_response
 
-    def _send_request(self, method: str, endpoint: str, json_data: Optional[Dict] = None):
-        url = f"{self.base_url}{endpoint}"
-        print(f"Отправка {method} запроса на {url} с данными: {json_data}")
-        try:
-            response = requests.request(method=method, url=url, json=json_data, timeout=10)
-            response.raise_for_status()
-            result = response.json()
-            print(f"Ответ сервера: {result}")
-            return result
-        except requests.exceptions.RequestException as e:
-            print(f"Ошибка запроса: {e}")
-            return None
-
-    def learn_and_predict(self, data: Dict):
-        return self._send_request("POST", "/task/train_and_prediction", json_data=data)
-
-    def learn(self, data: Dict):
-        return self._send_request("GET", "/task/train", json_data=data)
-
-    def delete(self, data: Dict):
-        return self._send_request("DELETE", "/task/delete", json_data=data)
-
-    def predict(self, data: Dict):
-        return self._send_request("POST", "/task/prediction", json_data=data)
-
-
-if __name__ == "__main__":
     api = BakeSystemAPI()
+    data = {"some": "data"}
+    result = api.learn_and_predict(data)
 
-    data_learn_predict = {
-        "server": "localhost",
-        "port": 5432,
-        "user": "postgres",
-        "password": "5552225",
-        "name_database_data": "bake_data",
-        "name_database_agent": "bake_agent",
-        "name_table_for_learn": "bake_cooling_system_learn",
-        "name_table_for_predict": "bake_cooling_system",
-        "label_limit": "Все",
-        "str_limit": "1:21",
-        "task_manager": "LEARN AND PREDICT"
-    }
+    # Проверяем, что запрос был сделан
+    mock_request.assert_called_once_with(method="POST", url="http://127.0.0.1:8000/task/train_and_prediction", json=data, timeout=10)
+    assert result == {"status": "success"}
 
-    result = api.learn_and_predict(data_learn_predict)
-    if result:
-        print("Результат LEARN AND PREDICT:", result)
 
-    # Остальные запросы можно раскомментировать и использовать по аналогии
+@patch("src.analysis.BakeSystemAPI.requests.request")
+def test_predict(mock_request):
+    mock_response = Mock()
+    mock_response.json.return_value = {"prediction": 42}
+    mock_response.raise_for_status.return_value = None
+    mock_request.return_value = mock_response
+
+    api = BakeSystemAPI()
+    data = {"some": "data"}
+    result = api.predict(data)
+
+    mock_request.assert_called_once_with(method="POST", url="http://127.0.0.1:8000/task/prediction", json=data, timeout=10)
+    assert result == {"prediction": 42}
+
+
+@patch("src.analysis.BakeSystemAPI.requests.request")
+def test_delete(mock_request):
+    mock_response = Mock()
+    mock_response.json.return_value = {"deleted": True}
+    mock_response.raise_for_status.return_value = None
+    mock_request.return_value = mock_response
+
+    api = BakeSystemAPI()
+    data = {"some": "data"}
+    result = api.delete(data)
+
+    mock_request.assert_called_once_with(method="DELETE", url="http://127.0.0.1:8000/task/delete", json=data, timeout=10)
+    assert result == {"deleted": True}
+
+
+@patch("src.analysis.BakeSystemAPI.requests.request")
+def test_learn(mock_request):
+    mock_response = Mock()
+    mock_response.json.return_value = {"trained": True}
+    mock_response.raise_for_status.return_value = None
+    mock_request.return_value = mock_response
+
+    api = BakeSystemAPI()
+    data = {"some": "data"}
+    result = api.learn(data)
+
+    mock_request.assert_called_once_with(method="GET", url="http://127.0.0.1:8000/task/train", json=data, timeout=10)
+    assert result == {"trained": True}
