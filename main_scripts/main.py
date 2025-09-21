@@ -564,7 +564,7 @@ async def data_predict_claster_classif_distribution(
         classif_data_with_labels = await two_methods_included.processing_limit_label(classif_data_with_labels, label_limit)
     return classif_data_with_labels
 
-# Подготовка вывода
+# Подготовка вывода тут
 async def processing_result_by_task(
         db_connection: DatabaseConnector,
         dataset: List[Dict],
